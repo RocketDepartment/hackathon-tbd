@@ -80,13 +80,25 @@ if __name__ == '__main__':
 	print 'Press Ctrl-C to quit.'
 	while True:
 
-		data = json.loads(open("example3.json").read())
+		import urllib2
+		data = urllib2.urlopen("http://172.16.100.11:3000/foo").read()
+
+		data = json.loads(data)
 		new_id = data["id"]
+		print new_id
 
 
 		if not new_id == current_id:
 			current_id = new_id
 			print "New Display"
+
+			#fade out old one
+			#wait_ms = 1000
+			#for i in range(0, 255, 5):
+				#print "Fade: ", i
+				#strip.setBrightness(255 - i)
+				#strip.show()
+				#time.sleep(wait_ms/1000.0)
 
 			led_matrix = LEDMatrix(data)
 			
@@ -115,4 +127,8 @@ if __name__ == '__main__':
 			led_matrix.loadRow(strip, 22, 225, data["row22"])
 			led_matrix.loadRow(strip, 23, 231, data["row23"])
 
+			strip.setBrightness(255)
+
 			strip.show()
+
+		time.sleep(2000.0/1000.0)
