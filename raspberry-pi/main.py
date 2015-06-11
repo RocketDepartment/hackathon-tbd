@@ -74,14 +74,17 @@ if __name__ == '__main__':
 	# Intialize the library (must be called once before other functions).
 	strip.begin()
 
-	# intialize currentId value
+	# intialize values
+	app_url = "http://172.16.100.11:3000/foo"
 	current_id = None
 
 	print 'Press Ctrl-C to quit.'
+
+	# main program loop
 	while True:
 
 		import urllib2
-		data = urllib2.urlopen("http://172.16.100.11:3000/foo").read()
+		data = urllib2.urlopen(app_url).read()
 
 		data = json.loads(data)
 		new_id = data["id"]
@@ -91,14 +94,6 @@ if __name__ == '__main__':
 		if not new_id == current_id:
 			current_id = new_id
 			print "New Display"
-
-			#fade out old one
-			#wait_ms = 1000
-			#for i in range(0, 255, 5):
-				#print "Fade: ", i
-				#strip.setBrightness(255 - i)
-				#strip.show()
-				#time.sleep(wait_ms/1000.0)
 
 			led_matrix = LEDMatrix(data)
 			
@@ -131,4 +126,5 @@ if __name__ == '__main__':
 
 			strip.show()
 
+		# sleep before querying the server again
 		time.sleep(2000.0/1000.0)
