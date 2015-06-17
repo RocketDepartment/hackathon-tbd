@@ -1,5 +1,6 @@
 import csv
 import pprint
+import json
 
 data_2006 = {}
 data_2007 = {}
@@ -35,7 +36,7 @@ def main():
 			# grab data from the csv
 			year = row[0]
 			county = row[1]
-			cases = int(row[2])
+			cases = row[2]
 
 			# find the correct years data set
 			if year in data_sets.keys():
@@ -44,12 +45,26 @@ def main():
 
 				if county in data_set.keys():
 					# update count of cases
-					data_set[county] = data_set[county] + cases
+					original_cases = int(data_set[county])
+					new_cases = int(cases)
+					updated_cases = str(original_cases + new_cases)
+
+					data_set[county] = updated_cases
 				else:
 					# add new county to the data set
 					data_set.update( {county : cases} )
 
 	pprint.pprint(data_2006)
+
+	for year in data_sets:
+
+		out_file = open( year + "_data.json","w" )
+
+		my_dict = data_sets[year]
+		json.dump(my_dict,out_file, indent=4)                                    
+
+		out_file.close()
+
 
 
 if __name__ == "__main__":
