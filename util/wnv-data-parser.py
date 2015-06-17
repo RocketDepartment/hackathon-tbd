@@ -35,7 +35,7 @@ def main():
 
 			# grab data from the csv
 			year = row[0]
-			week = row[1]
+			week = int(row[1])
 			county = row[2]
 			cases = int(row[3])
 
@@ -44,12 +44,25 @@ def main():
 
 				data_set = data_sets[year]
 
-				if county in data_set.keys():
+				# find out which quarter the case happened in
+				if week > 0 and week <= 13:
+					quarter = " Q1"
+				elif week > 13 and week <= 26:
+					quarter = " Q2"
+				elif week > 26 and week <= 39:
+					quarter = " Q3"
+				elif week > 39:
+					quarter = " Q4"
+
+				key = county + quarter
+
+
+				if key in data_set.keys():
 					# update count of cases
-					data_set[county] = data_set[county] + cases
+					data_set[key] = data_set[key] + cases
 				else:
 					# add new county to the data set
-					data_set.update( {county : cases} )
+					data_set.update( {key : cases} )
 
 	pprint.pprint(data_2006)
 
