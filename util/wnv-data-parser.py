@@ -35,8 +35,9 @@ def main():
 
 			# grab data from the csv
 			year = row[0]
-			county = row[1]
-			cases = row[2]
+			week = row[1]
+			county = row[2]
+			cases = int(row[3])
 
 			# find the correct years data set
 			if year in data_sets.keys():
@@ -45,11 +46,7 @@ def main():
 
 				if county in data_set.keys():
 					# update count of cases
-					original_cases = int(data_set[county])
-					new_cases = int(cases)
-					updated_cases = str(original_cases + new_cases)
-
-					data_set[county] = updated_cases
+					data_set[county] = data_set[county] + cases
 				else:
 					# add new county to the data set
 					data_set.update( {county : cases} )
