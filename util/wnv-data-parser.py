@@ -46,13 +46,13 @@ def main():
 
 				# find out which quarter the case happened in
 				if week > 0 and week <= 13:
-					quarter = " Q1"
+					quarter = ":Q1"
 				elif week > 13 and week <= 26:
-					quarter = " Q2"
+					quarter = ":Q2"
 				elif week > 26 and week <= 39:
-					quarter = " Q3"
+					quarter = ":Q3"
 				elif week > 39:
-					quarter = " Q4"
+					quarter = ":Q4"
 
 				key = county + quarter
 
@@ -68,12 +68,13 @@ def main():
 
 	for year in data_sets:
 
-		out_file = open( year + "_data.json","w" )
-
+		writer = csv.writer(open(year + '_quarters.csv', 'wb'))
 		my_dict = data_sets[year]
-		json.dump(my_dict,out_file, indent=4)                                    
+		for key, value in my_dict.items():
+			data = key.split(':')
+			data.append(value)
 
-		out_file.close()
+			writer.writerow(data)
 
 
 
